@@ -35,10 +35,44 @@ def login():
     db.close()
     if user:
         id, first_name, last_name = user
-        token = jwt.encode({'first_name': first_name, 'last_name': last_name, 'user_id': id, 'exp': datetime.datetime.utcnow() + datetime.timedelta(minutes=30)}, app.config['SECRET_KEY'])
+        token = jwt.encode({'first_name': first_name, 'last_name': last_name, 'user_id': id, 'exp': datetime.datetime.utcnow() + datetime.timedelta(minutes=180)}, app.config['SECRET_KEY'])
         return jsonify({'first_name': first_name, 'last_name': last_name, 'token': token})
     else:
         return jsonify({'message': 'Authentication failed!'}), 401
 
+def validateToken(request):
+    token = request.headers.get('Authorization')
+    if not token:
+        return jsonify({'message': 'Token is missing!'}), 401
+    try:
+        payload = jwt.decode(token, app.config['SECRET_KEY'], algorithms=['HS256'])
+        return payload
+    except jwt.ExpiredSignatureError:
+        return None
+    except jwt.InvalidTokenError:
+        return None
+
+# Protected route example
+@app.route('/testprotected', methods=['GET'])
+def protected():
+    token = request.headers.get('Authorization')
+
+    if not token:
+        return jsonify({'message': 'Token is missing!'}), 401
+    try:
+        payload = jwt.decode(token, app.config['SECRET_KEY'], algorithms=['HS256'])
+        print("Payload:", payload)  # Debugging print statement
+        first_name = payload['first_name']
+        last_name = payload['last_name']
+        user_id = payload['user_id']
+        exp = payload['exp']
+        print("Name:", first_name, last_name)
+        # do something with id
+        return jsonify({'message': f'Welcome {first_name} {last_name}!'})
+    except jwt.ExpiredSignatureError:
+        return jsonify({'message': 'Token has expired!'}), 401
+    except jwt.InvalidTokenError:
+        return jsonify({'message': 'Invalid token!'}), 401
+    
 if __name__ == '__main__':
     app.run(debug=True)
