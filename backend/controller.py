@@ -26,7 +26,7 @@ def login():
     password = request.args.get('password')
     db = get_db()
     cursor = db.cursor()
-    query = "SELECT first_name, last_name FROM user_table WHERE username = ? AND password = ?"
+    query = "SELECT first_name, last_name FROM login_table WHERE username = ? AND password = ?"
     cursor.execute(query, (username, password))
     user = cursor.fetchone() 
     db.close()
