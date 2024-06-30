@@ -1,7 +1,10 @@
 from flask import Flask, g, request, jsonify
+import jwt
+import datetime
 import sqlite3
 
 app = Flask(__name__)
+app.config['SECRET_KEY'] = '42' # move this to a .gitignored file later
 DATABASE = 'wedding.db'
 
 def get_db():
@@ -20,21 +23,22 @@ def close_connection(exception):
 def index():
     return 'Welcome to my Flask application!'
 
-@app.route('/login')
+@app.route('/login', methods=['POST'])
 def login():
     username = request.args.get('username')
     password = request.args.get('password')
     db = get_db()
     cursor = db.cursor()
-    query = "SELECT first_name, last_name FROM user_table WHERE username = ? AND password = ?"
+    query = "SELECT id, first_name, last_name FROM user_table WHERE username = ? AND password = ?"
     cursor.execute(query, (username, password))
     user = cursor.fetchone() 
     db.close()
     if user:
-        first_name, last_name = user
-        return jsonify({'authenticated': True, 'first_name': first_name, 'last_name': last_name})
+        id, first_name, last_name = user
+        token = jwt.encode({'first_name': first_name, 'last_name': last_name, 'user_id': id, 'exp': datetime.datetime.utcnow() + datetime.timedelta(minutes=30)}, app.config['SECRET_KEY'])
+        return jsonify({'first_name': first_name, 'last_name': last_name, 'token': token})
     else:
-        return jsonify({'authenticated': False})
+        return jsonify({'message': 'Authentication failed!'}), 401
 
 if __name__ == '__main__':
     app.run(debug=True)
