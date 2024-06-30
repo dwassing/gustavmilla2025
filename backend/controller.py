@@ -1,8 +1,8 @@
-from flask import Flask, g, jsonify
+from flask import Flask, g, request, jsonify
 import sqlite3
 
 app = Flask(__name__)
-DATABASE = 'testdatabase.db'
+DATABASE = 'wedding.db'
 
 def get_db():
     db = getattr(g, '_database', None)
@@ -20,18 +20,21 @@ def close_connection(exception):
 def index():
     return 'Welcome to my Flask application!'
 
-@app.route('/users')
-def get_users():
-    db = get_db()
-    cursor = db.cursor()
-    cursor.execute('SELECT * FROM users')
-    users = cursor.fetchall()
-    users_dict = [{'id': row[0], 'name': row[1], 'age': row[2]} for row in users]
-    return jsonify(users_dict)
-
 @app.route('/login')
 def login():
-    return jsonify({})
+    username = request.args.get('username')
+    password = request.args.get('password')
+    db = get_db()
+    cursor = db.cursor()
+    query = "SELECT first_name, last_name FROM user_table WHERE username = ? AND password = ?"
+    cursor.execute(query, (username, password))
+    user = cursor.fetchone() 
+    db.close()
+    if user:
+        first_name, last_name = user
+        return jsonify({'authenticated': True, 'first_name': first_name, 'last_name': last_name})
+    else:
+        return jsonify({'authenticated': False})
 
 if __name__ == '__main__':
     app.run(debug=True)
