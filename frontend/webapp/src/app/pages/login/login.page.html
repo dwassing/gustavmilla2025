@@ -1,3 +1,10 @@
 <p>login works!</p>
 
-<button (click)="loginUser()">send request to backend</button>
+<form #myform = "ngForm" (ngSubmit) = "loginUser(myform)" >
+    <input type = "text" name = "username" placeholder = "Username" ngModel>
+    <br/>
+  
+    <input type = "password" name = "password" placeholder = "Your Password" ngModel>
+    <br/>
+    <input type = "submit" value = "Send">
+</form>
