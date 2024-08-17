@@ -5,7 +5,7 @@ import { Component } from '@angular/core';
   standalone: true,
   imports: [],
   templateUrl: './info.page.html',
-  styleUrl: './info.page.sass'
+  styleUrl: './info.page.scss'
 })
 export class InfoPage {
 
