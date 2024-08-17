@@ -40,7 +40,7 @@ def login():
         token = jwt.encode({'first_name': first_name, 'last_name': last_name, 'user_id': id, 'exp': datetime.datetime.utcnow() + datetime.timedelta(minutes=180)}, app.config['SECRET_KEY'])
         return jsonify({'first_name': first_name, 'last_name': last_name, 'token': token})
     else:
-        return jsonify({'message': 'Authentication failed!'}), 401
+        return jsonify({'message': 'Felaktigt namn eller lösenord!'}), 401
 
 def validateToken(request):
     token = request.headers.get('Authorization')
@@ -53,6 +53,13 @@ def validateToken(request):
         return None
     except jwt.InvalidTokenError:
         return None
+
+@app.route('/getUserPreferences', methods=['GET'])
+def userPreferences():
+    if not validateToken(request) != None:
+        print('could not validate')
+    else:
+        print('could validate')
 
 # Protected route example
 @app.route('/registration', methods=['GET'])
