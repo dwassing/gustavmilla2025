@@ -1,9 +1,11 @@
 from flask import Flask, g, request, jsonify
+from flask_cors import CORS
 import jwt
 import datetime
 import sqlite3
 
 app = Flask(__name__)
+CORS(app)
 app.config['SECRET_KEY'] = '42' # move this to a .gitignored file later
 DATABASE = 'wedding.db'
 
@@ -53,7 +55,7 @@ def validateToken(request):
         return None
 
 # Protected route example
-@app.route('/testprotected', methods=['GET'])
+@app.route('/registration', methods=['GET'])
 def protected():
     token = request.headers.get('Authorization')
 
