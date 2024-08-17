@@ -27,8 +27,8 @@ def index():
 
 @app.route('/login', methods=['POST'])
 def login():
-    username = request.args.get('username')
-    password = request.args.get('password')
+    username = request.form.get('username')
+    password = request.form.get('password')
     db = get_db()
     cursor = db.cursor()
     query = "SELECT id, first_name, last_name FROM login_table WHERE username = ? AND password = ?"
