@@ -27,8 +27,8 @@ def index():
 
 @app.route('/login', methods=['POST'])
 def login():
-    username = request.form.get('username')
-    password = request.form.get('password')
+    username = request.json.get('username')
+    password = request.json.get('password')
     db = get_db()
     cursor = db.cursor()
     query = "SELECT id, first_name, last_name FROM login_table WHERE username = ? AND password = ?"
@@ -56,10 +56,14 @@ def validateToken(request):
 
 @app.route('/getUserPreferences', methods=['GET'])
 def userPreferences():
-    if not validateToken(request) != None:
-        print('could not validate')
+    payload = validateToken(request);
+    if payload == None:
+        return jsonify({'message': 'Invalid token!'}), 401
     else:
-        print('could validate')
+        print(payload['first_name'])
+        print(payload['last_name'])
+        # query to get all props in a row in the guest table
+        return jsonify({'message': f'Token validated'})
 
 # Protected route example
 @app.route('/registration', methods=['GET'])
@@ -77,7 +81,7 @@ def protected():
         exp = payload['exp']
         print("Name:", first_name, last_name)
         # do something with id
-        return jsonify({'message': f'Welcome {first_name} {last_name}!'})
+        return jsonify({'message': f'Välkommen {first_name} {last_name}!'})
     except jwt.ExpiredSignatureError:
         return jsonify({'message': 'Token has expired!'}), 401
     except jwt.InvalidTokenError:
