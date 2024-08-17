@@ -11,6 +11,10 @@ export class LoginService {
   constructor(private http: HttpClient) {}
 
   loginUser(username: string, password: string): Observable<User> {
-    return this.http.post<User>(`${environment.backendBaseUrl}/login?username=${username}&password=${password}`, {})
+    const body = {
+      username: username,
+      password: password
+    }
+    return this.http.post<User>(`${environment.backendBaseUrl}/login`, body)
   }
 }
