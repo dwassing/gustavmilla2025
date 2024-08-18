@@ -13,9 +13,9 @@ export class AuthService {
     return localStorage.getItem('token') != (null || undefined);
   }
 
-  sessionExpired$ = this.sessionExpiredSubject.asObservable();
+  logoutReason$ = this.sessionExpiredSubject.asObservable();
 
-  notifySessionExpired(message: string) {
+  notifyLogoutReason(message: string) {
     this.sessionExpiredSubject.next(message);
   }
 

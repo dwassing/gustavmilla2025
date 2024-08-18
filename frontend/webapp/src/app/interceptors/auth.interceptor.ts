@@ -13,7 +13,7 @@ export class AuthInterceptor implements HttpInterceptor {
     return next.handle(req).pipe(
       catchError((error: HttpErrorResponse) => {
         if (error.status === 401) {
-          this.authService.notifySessionExpired('Din session har gått ut, vänligen logga in igen.')
+          this.authService.notifyLogoutReason('Din session har gått ut, vänligen logga in igen.')
           this.router.navigate(['/']);
           localStorage.clear();
         }
