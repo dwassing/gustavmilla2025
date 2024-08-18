@@ -1,7 +1,19 @@
 <p>profile works!</p>
 
-<button (click)="getGuestPreferences()">log guest preferences</button>
+<button (click)="setGuestPreferences()">log guest preferences</button>
 
-@if(guestPreferences){
-  <div>{{guestPreferences}}</div>
-}
+<div class="guest-preferences-wrapper">
+  @if(guestPreferences){
+    <h2>Dina anmälda gäster är:</h2>
+    <div class="guest-wrapper">
+    @for(item of guestPreferences; track item){
+      @if(item.registered){
+
+      }
+      <h3>{{item.firstName + ' ' + item.lastName}}</h3> 
+      <p>{{item.foodPreference}}</p>
+      <p>{{item.allergi}}</p>   
+    }
+    </div>
+  }
+</div>
