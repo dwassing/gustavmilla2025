@@ -22,8 +22,8 @@ export class RegistrationComponent {
       firstName: ['', Validators.required],
       lastName: ['', Validators.required],
       foodPreferences: [''],
-      allergies: [''],
-      id: this.guestId
+      allergi: [''],
+      guestId: this.guestId
     });
   }
 

@@ -1,26 +1,29 @@
 <div class="guest-preferences-wrapper">
-  @if(guestPreferences){
+  @if(registeredGuests.length > 0){
     <div class="guest-wrapper">
-    @for(item of guestPreferences; track item){
-      @if(item.registered){
-        <h2>Dina anmälda gäster är:</h2>
-        <h3>{{item.firstName + ' ' + item.lastName}}</h3> 
-        <p>Matpreferens: {{item.foodPreference ? item.foodPreference : 'Ingen preferens'}}</p>
-        <p>Allergi: {{item.allergi}}</p>   
+    <h2>Dina anmälda gäster är:</h2>
+    @for(guest of registeredGuests; track guest){
+      @if(guest.registered){
+        <h3>{{guest.firstName + ' ' + guest.lastName}}</h3> 
+        <p>Matpreferens: {{guest.foodPreference ? guest.foodPreference : 'Ingen preferens'}}</p>
+        <p>Allergi: {{guest.allergi}}</p>
+        <button (click)="unregisterGuest(guest)">Avanmäl denna person</button>
       }
     }
     </div>
-    @if(notRegisteredIds.length != 0){
+    <!-- @for(guestId of idsToBeRegistered; track guestId){
+      <app-registration [guestId]="guestId" (formSubmitted)="onGuestFormSubmit($event)"></app-registration>
+    } -->
+    @if(idToBeRegistered){
+      <app-registration [guestId]="idToBeRegistered" (formSubmitted)="onGuestFormSubmit($event)"></app-registration>
+    }
+    @if(notRegisteredIds.length != 0 && !idToBeRegistered){
       <div class="registration-wrapper">
         <h2>Du kan fortfarande anmäla {{notRegisteredIds.length == 1 ? '1 person' : notRegisteredIds.length + ' personer'}}</h2>
         <button (click)="createGuestRegistration()">Klicka här för att anmäla en till person</button>
       </div>
     }
-    @for(id of idsToBeRegistered; track id){
-      <p>{{id}}</p>
-      <app-registration [guestId]="id" (formSubmitted)="onGuestFormSubmit($event)"></app-registration>
-    }
   }
 </div>
-<button (click)="setGuestPreferences()">Spara anmälan</button>
+<!-- <button (click)="setGuestPreferences()">Spara anmälan</button> -->
 <button (click)="logout()">Logga ut</button>

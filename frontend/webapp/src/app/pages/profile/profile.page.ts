@@ -13,9 +13,9 @@ import { RegistrationComponent } from "../../components/registration/registratio
   styleUrl: "./profile.page.scss",
 })
 export class ProfilePage implements OnInit {
-  guestPreferences: Guest[] = [];
+  registeredGuests: Guest[] = [];
   notRegisteredIds: number[] = [];
-  idsToBeRegistered: number[] = [];
+  idToBeRegistered: number | undefined;
   guestsToBeRegistered: Guest[] = [];
   submitCount: number = 0;
   mockdata: Guest[] = [
@@ -49,8 +49,9 @@ export class ProfilePage implements OnInit {
 
   getGuestPreferences(): void {
     this.guestService.getGuestPreferences().subscribe((res) => {
-      this.guestPreferences = res;
-      this.guestPreferences.forEach((guest) => {
+      this.notRegisteredIds = [];
+      this.registeredGuests = res;
+      this.registeredGuests.forEach((guest) => {
         if (!guest.registered) {
           this.notRegisteredIds.push(guest.guestId);
         }
@@ -59,11 +60,13 @@ export class ProfilePage implements OnInit {
   }
 
   createGuestRegistration(): void {
-    this.idsToBeRegistered.push(this.notRegisteredIds.pop()!!);
+    this.idToBeRegistered = this.notRegisteredIds.pop()!!;
   }
 
   onGuestFormSubmit(guest: Guest){
     this.guestsToBeRegistered.push(guest);
+    this.idToBeRegistered = undefined;
+    this.setGuestPreferences();
   }
 
   async setGuestPreferences(): Promise<boolean> {
@@ -72,6 +75,14 @@ export class ProfilePage implements OnInit {
       this.guestsToBeRegistered = [];
       this.notRegisteredIds = []; // not quite, only remove those that are registered
     }
+    this.getGuestPreferences();
+    return res;
+  }
+
+  async unregisterGuest(guest: Guest): Promise<boolean> {
+    const res = await this.guestService.removeGuest(guest.guestId);
+    this.registeredGuests.splice(this.registeredGuests.indexOf(guest), 1);
+    if (res) this.getGuestPreferences();
     return res;
   }
 

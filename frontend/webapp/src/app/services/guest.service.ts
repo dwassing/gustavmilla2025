@@ -23,4 +23,11 @@ export class GuestService {
   async setGuestPreferences(guests: Guest[]): Promise<boolean> {
     return lastValueFrom(this.http.post<boolean>(`${environment.backendBaseUrl}/setGuestPreferences`, guests, {headers: this.headers}));
   }
+
+  async removeGuest(id: number): Promise<boolean> {
+    const body = {
+      guestId: id
+    }
+    return lastValueFrom(this.http.post<boolean>(`${environment.backendBaseUrl}/removeGuest`, body, {headers: this.headers}))
+  }
 }
