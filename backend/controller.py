@@ -82,13 +82,18 @@ def setGuestPreferences():
     if payload == None:
         return jsonify({'message': 'Invalid token!'}), 401
     else:
-        update_date = request.json
+        update_data = request.json
         db = get_db()
         cursor = db.cursor()
-        for entry in update_date:
-            query = "UPDATE guest_table SET first_name = ?, last_name = ?, food_preference = ?, allergi = ?, registered = ? WHERE guest_id = ? AND connected_user = ?"
-            cursor.execute(query, (entry['firstName'], entry['lastName'], entry['foodPreferences'], entry['allergi'], True, entry['guestId'], payload['user_id']))
-            db.commit()
+        for entry in update_data:
+            query = "SELECT * FROM guest_table WHERE guest_id = ? AND connected_user = ?"
+            cursor.execute(query, (entry['guestId'], payload['user_id']))
+            if cursor.fetchone() == None:
+                return jsonify({'message': 'Invalid combination!'}), 401
+            else:
+                query = "UPDATE guest_table SET first_name = ?, last_name = ?, food_preference = ?, allergi = ?, registered = ? WHERE guest_id = ? AND connected_user = ?"
+                cursor.execute(query, (entry['firstName'], entry['lastName'], entry['foodPreferences'], entry['allergi'], True, entry['guestId'], payload['user_id']))
+        db.commit()
         db.close()
         return jsonify({'message': 'Success'}), 200
     
@@ -102,11 +107,16 @@ def setRemoveUser():
         print(person_to_remove)
         db = get_db()
         cursor = db.cursor()
-        query = "UPDATE guest_table SET first_name = ?, last_name = ?, food_preference = ?, allergi = ?, registered = ? WHERE guest_id = ? AND connected_user = ?"
-        cursor.execute(query, ("", "", "", "", False, person_to_remove, payload['user_id']))
-        db.commit()
-        db.close()
-        return jsonify({'message': 'Success'}), 200
+        query = "SELECT * FROM guest_table WHERE guest_id = ? AND connected_user = ?"
+        cursor.execute(query, (person_to_remove, payload['user_id']))
+        if cursor.fetchone() == None:
+            return jsonify({'message': 'Invalid combination!'}), 401
+        else:
+            query = "UPDATE guest_table SET first_name = ?, last_name = ?, food_preference = ?, allergi = ?, registered = ? WHERE guest_id = ? AND connected_user = ?"
+            cursor.execute(query, ("", "", "", "", False, person_to_remove, payload['user_id']))
+            db.commit()
+            db.close()
+            return jsonify({'message': 'Success'}), 200
 
 # Protected route example
 @app.route('/registration', methods=['GET'])
