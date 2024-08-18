@@ -12,7 +12,7 @@
     </div>
     @if(numberOfNotRegistered != 0){
       <div class="registration-wrapper">
-        <h2>Du kan fortfarande anmäla {{numberOfNotRegistered}} personer</h2>
+        <h2>Du kan fortfarande anmäla {{numberOfNotRegistered == 1 ? '1 person' : numberOfNotRegistered + ' personer'}}</h2>
         <button>Klicka här för att anmäla en till person</button>
       </div>
     }

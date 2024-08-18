@@ -45,7 +45,7 @@ export class ProfilePage implements OnInit {
 
   getGuestPreferences(): void {
     this.guestService.getGuestPreferences().subscribe((res) => {
-      this.guestPreferences = this.mockdata;
+      this.guestPreferences = res;
       this.guestPreferences.forEach((guest) => {
         if (!guest.registered) {
           this.numberOfNotRegistered++;
