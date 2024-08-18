@@ -87,7 +87,7 @@ def setGuestPreferences():
         cursor = db.cursor()
         for entry in update_date:
             query = "UPDATE guest_table SET first_name = ?, last_name = ?, food_preference = ?, allergi = ?, registered = ? WHERE guest_id = ? AND connected_user = ?"
-            cursor.execute(query, (entry['firstName'], entry['lastName'], entry['foodPreferences'], entry['allergi'], 'True', entry['guestId'], payload['user_id']))
+            cursor.execute(query, (entry['firstName'], entry['lastName'], entry['foodPreferences'], entry['allergi'], True, entry['guestId'], payload['user_id']))
             db.commit()
         db.close()
         return jsonify({'message': 'Success'}), 200
@@ -103,7 +103,7 @@ def setRemoveUser():
         db = get_db()
         cursor = db.cursor()
         query = "UPDATE guest_table SET first_name = ?, last_name = ?, food_preference = ?, allergi = ?, registered = ? WHERE guest_id = ? AND connected_user = ?"
-        cursor.execute(query, ("", "", "", "", 'False', person_to_remove, payload['user_id']))
+        cursor.execute(query, ("", "", "", "", False, person_to_remove, payload['user_id']))
         db.commit()
         db.close()
         return jsonify({'message': 'Success'}), 200
