@@ -60,24 +60,32 @@ def userPreferences():
     if payload == None:
         return jsonify({'message': 'Invalid token!'}), 401
     else:
-        print(payload['first_name'])
-        print(payload['last_name'])  
         db = get_db()
         cursor = db.cursor()
-        query = "SELECT id FROM login_table WHERE first_name = ? AND last_name = ?"
-        cursor.execute(query, (payload['first_name'], payload['last_name']))
-        connected_user_id = cursor.fetchone()
-        query = "SELECT first_name, last_name, food_preference, allergi FROM guest_table WHERE connected_user = ?"
-        cursor.execute(query, (connected_user_id))
+        query = "SELECT guest_id, first_name, last_name, food_preference, allergi FROM guest_table WHERE connected_user = ?"
+        cursor.execute(query, (str(payload['user_id'])))
         information = cursor.fetchall()
         dictlist = [dict() for x in range(len(information))]
         for n, entry in enumerate(information):
-            dictlist[n]['First Name'] = entry[0]
-            dictlist[n]['Last Name'] = entry[1]
-            dictlist[n]['Food Preference'] = entry[2]
-            dictlist[n]['Allergi'] = entry[3]
+            dictlist[n]['guestId'] = entry[0]
+            dictlist[n]['firstName'] = entry[1]
+            dictlist[n]['lastName'] = entry[2]
+            dictlist[n]['foodPreference'] = entry[3]
+            dictlist[n]['allergi'] = entry[4]
         db.close()
         return jsonify(dictlist)
+    
+@app.route('/setGuestPreferences', methods=['GET'])
+def setUserPreferences():
+    payload = validateToken(request);
+    if payload == None:
+        return jsonify({'message': 'Invalid token!'}), 401
+    else:
+        db = get_db()
+        cursor = db.cursor()
+        query = "SET first_name = ?, last_name = ?, food_preference = ?, allergi = ?, FROM giest_table WHERE guest_id = ? AND connected_user = ?"
+        cursor.execute(query, (payload['first_name'], payload['last_name']), payload['food_preference'], payload['allergi'], payload['guest_id'], payload['connected_user'])
+        pass
 
 # Protected route example
 @app.route('/registration', methods=['GET'])
