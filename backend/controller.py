@@ -55,7 +55,7 @@ def validateToken(request):
         return None
 
 @app.route('/getGuestPreferences', methods=['GET'])
-def userPreferences():
+def guestPreferences():
     payload = validateToken(request);
     if payload == None:
         return jsonify({'message': 'Invalid token!'}), 401
