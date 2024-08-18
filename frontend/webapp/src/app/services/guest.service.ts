@@ -10,11 +10,11 @@ import { Guest } from '../models/guest.model';
 export class GuestService {
   constructor(private http: HttpClient) {}
 
-  getGuestPreferences(): Observable<Guest> {
+  getGuestPreferences(): Observable<Guest[]> {
     const headers = new HttpHeaders({
       'Authorization': `${localStorage.getItem('token')}`,
       accept: 'application/json'
     });
-    return this.http.get<Guest>(`${environment.backendBaseUrl}/getGuestPreferences`, {headers})
+    return this.http.get<Guest[]>(`${environment.backendBaseUrl}/getGuestPreferences`, {headers})
   }
 }
