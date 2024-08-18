@@ -1,0 +1,27 @@
+@if(!submitted){
+  <form [formGroup]="guestForm" (ngSubmit)="onSubmit()">
+    <div class="form-group">
+      <label for="firstName">Förnamn</label>
+      <input id="firstName" formControlName="firstName" class="form-control" type="text">
+    </div>
+
+    <div class="form-group">
+      <label for="lastName">Efternamn</label>
+      <input id="lastName" formControlName="lastName" class="form-control" type="text">
+    </div>
+
+    <div class="form-group">
+      <label for="foodPreferences">Matpreferens</label>
+      <input id="foodPreferences" formControlName="foodPreferences" class="form-control" type="text">
+    </div>
+
+    <div class="form-group">
+      <label for="allergies">Allergier?</label>
+      <input id="allergies" formControlName="allergies" class="form-control" type="text">
+    </div>
+
+    <button type="submit" class="btn btn-primary">Spara denna gäst</button>
+  </form>
+} @else {
+  <p>Gästen har sparats, glöm inte att spara hela anmälan!</p>
+}

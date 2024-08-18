@@ -10,11 +10,15 @@
       }
     }
     </div>
-    @if(numberOfNotRegistered != 0){
+    @if(notRegisteredIds.length != 0){
       <div class="registration-wrapper">
-        <h2>Du kan fortfarande anmäla {{numberOfNotRegistered == 1 ? '1 person' : numberOfNotRegistered + ' personer'}}</h2>
-        <button>Klicka här för att anmäla en till person</button>
+        <h2>Du kan fortfarande anmäla {{notRegisteredIds.length == 1 ? '1 person' : notRegisteredIds.length + ' personer'}}</h2>
+        <button (click)="createGuestRegistration()">Klicka här för att anmäla en till person</button>
       </div>
+    }
+    @for(id of idsToBeRegistered; track id){
+      <p>{{id}}</p>
+      <app-registration [guestId]="id" (formSubmitted)="onGuestFormSubmit($event)"></app-registration>
     }
   }
 </div>

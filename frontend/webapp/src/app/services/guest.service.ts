@@ -20,7 +20,7 @@ export class GuestService {
     return this.http.get<Guest[]>(`${environment.backendBaseUrl}/getGuestPreferences`, {headers: this.headers})
   }
 
-  async setGuestPreferences(): Promise<boolean> {
-    return lastValueFrom(of(true));
+  async setGuestPreferences(guests: Guest[]): Promise<boolean> {
+    return lastValueFrom(this.http.post<boolean>(`${environment.backendBaseUrl}/setGuestPreferences`, guests, {headers: this.headers}));
   }
 }
