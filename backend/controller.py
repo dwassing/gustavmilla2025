@@ -37,7 +37,7 @@ def login():
     db.close()
     if user:
         id, first_name, last_name = user
-        token = jwt.encode({'first_name': first_name, 'last_name': last_name, 'user_id': id, 'exp': datetime.datetime.utcnow() + datetime.timedelta(minutes=1)}, app.config['SECRET_KEY'])
+        token = jwt.encode({'first_name': first_name, 'last_name': last_name, 'user_id': id, 'exp': datetime.datetime.utcnow() + datetime.timedelta(minutes=180)}, app.config['SECRET_KEY'])
         return jsonify({'first_name': first_name, 'last_name': last_name, 'token': token})
     else:
         return jsonify({'message': 'Felaktigt namn eller lösenord!'}), 401
@@ -73,19 +73,24 @@ def guestPreferences():
             dictlist[n]['foodPreference'] = entry[3]
             dictlist[n]['allergi'] = entry[4]
         db.close()
-        return jsonify(dictlist)
+        return jsonify(dictlist), 200
     
-@app.route('/setGuestPreferences', methods=['GET'])
-def setUserPreferences():
+@app.route('/setGuestPreferences', methods=['POST'])
+def setGuestPreferences():
     payload = validateToken(request);
     if payload == None:
         return jsonify({'message': 'Invalid token!'}), 401
     else:
+        update_date = request.json
         db = get_db()
         cursor = db.cursor()
-        query = "SET first_name = ?, last_name = ?, food_preference = ?, allergi = ?, FROM giest_table WHERE guest_id = ? AND connected_user = ?"
-        cursor.execute(query, (payload['first_name'], payload['last_name']), payload['food_preference'], payload['allergi'], payload['guest_id'], payload['connected_user'])
-        pass
+        for entry in update_date:
+            print(entry)
+            query = "UPDATE guest_table SET first_name = ?, last_name = ?, food_preference = ?, allergi = ? WHERE guest_id = ? AND connected_user = ?"
+            cursor.execute(query, (entry['firstName'], entry['lastName'], entry['foodPreferences'], entry['allergi'], entry['guestId'], payload['user_id']))
+            db.commit()
+        db.close()
+        return jsonify({'message': 'Success'}), 200
 
 # Protected route example
 @app.route('/registration', methods=['GET'])
