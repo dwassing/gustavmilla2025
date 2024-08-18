@@ -92,7 +92,7 @@ def setGuestPreferences():
         db.close()
         return jsonify({'message': 'Success'}), 200
     
-@app.route('/setRemoveUser', methods=['POST'])
+@app.route('/removeGuest', methods=['POST'])
 def setRemoveUser():
     payload = validateToken(request);
     if payload == None:
