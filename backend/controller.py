@@ -37,7 +37,7 @@ def login():
     db.close()
     if user:
         id, first_name, last_name = user
-        token = jwt.encode({'first_name': first_name, 'last_name': last_name, 'user_id': id, 'exp': datetime.datetime.utcnow() + datetime.timedelta(minutes=180)}, app.config['SECRET_KEY'])
+        token = jwt.encode({'first_name': first_name, 'last_name': last_name, 'user_id': id, 'exp': datetime.datetime.utcnow() + datetime.timedelta(minutes=1)}, app.config['SECRET_KEY'])
         return jsonify({'first_name': first_name, 'last_name': last_name, 'token': token})
     else:
         return jsonify({'message': 'Felaktigt namn eller lösenord!'}), 401
