@@ -23,7 +23,7 @@ export class HomePage {
   }
 
   ngOnInit() {
-    this.authService.sessionExpired$.subscribe(msg => {
+    this.authService.logoutReason$.subscribe(msg => {
       this.message = msg;
       if (msg) {
         setTimeout(() => this.authService.clearMessage(), 10000);  // Clear message after 10 seconds
