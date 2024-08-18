@@ -1,3 +1,7 @@
 <p>profile works!</p>
 
 <button (click)="getGuestPreferences()">log guest preferences</button>
+
+@if(guestPreferences){
+  <div>{{guestPreferences}}</div>
+}
