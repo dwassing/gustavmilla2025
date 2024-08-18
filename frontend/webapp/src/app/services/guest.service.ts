@@ -15,6 +15,6 @@ export class GuestService {
       'Authorization': `${localStorage.getItem('token')}`,
       accept: 'application/json'
     });
-    return this.http.post<Guest>(`${environment.backendBaseUrl}/getGuestPreferences`, {headers})
+    return this.http.get<Guest>(`${environment.backendBaseUrl}/getGuestPreferences`, {headers})
   }
 }
