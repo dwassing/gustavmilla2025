@@ -86,10 +86,25 @@ def setGuestPreferences():
         db = get_db()
         cursor = db.cursor()
         for entry in update_date:
-            print(entry)
             query = "UPDATE guest_table SET first_name = ?, last_name = ?, food_preference = ?, allergi = ?, registered = ? WHERE guest_id = ? AND connected_user = ?"
             cursor.execute(query, (entry['firstName'], entry['lastName'], entry['foodPreferences'], entry['allergi'], 'True', entry['guestId'], payload['user_id']))
             db.commit()
+        db.close()
+        return jsonify({'message': 'Success'}), 200
+    
+@app.route('/setRemoveUser', methods=['POST'])
+def setRemoveUser():
+    payload = validateToken(request);
+    if payload == None:
+        return jsonify({'message': 'Invalid token!'}), 401
+    else:
+        person_to_remove = request.json.get('guestId')
+        print(person_to_remove)
+        db = get_db()
+        cursor = db.cursor()
+        query = "UPDATE guest_table SET first_name = ?, last_name = ?, food_preference = ?, allergi = ?, registered = ? WHERE guest_id = ? AND connected_user = ?"
+        cursor.execute(query, ("", "", "", "", 'False', person_to_remove, payload['user_id']))
+        db.commit()
         db.close()
         return jsonify({'message': 'Success'}), 200
 
