@@ -12,6 +12,7 @@ import { AuthService } from '../../services/auth.service';
 })
 export class HomePage {
   message: string | null = null;
+  isLoggedIn: boolean = false;
   constructor(
     private router: Router, private authService: AuthService
   ) {
@@ -23,6 +24,7 @@ export class HomePage {
   }
 
   ngOnInit() {
+    this.isLoggedIn = localStorage.getItem('token') != null;
     this.authService.logoutReason$.subscribe(msg => {
       this.message = msg;
       if (msg) {

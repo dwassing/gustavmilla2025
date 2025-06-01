@@ -12,7 +12,7 @@
 <div class="div-all">
   <button 
     (click)="goToLoginPage()"
-    class="button-62">Tryck här för att logga in
+    class="button-62">{{isLoggedIn ? 'Gå till anmälan' : 'Tryck här för att logga in'}}
   </button>
 </div>
 
