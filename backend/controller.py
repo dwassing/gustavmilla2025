@@ -58,7 +58,7 @@ def validateToken(request):
 
 @app.route('/getGuestPreferences', methods=['GET'])
 def guestPreferences():
-    payload = validateToken(request);
+    payload = validateToken(request)
     if payload == None:
         return jsonify({'message': 'Invalid token!'}), 401
     else:
@@ -80,7 +80,7 @@ def guestPreferences():
     
 @app.route('/setGuestPreferences', methods=['POST'])
 def setGuestPreferences():
-    payload = validateToken(request);
+    payload = validateToken(request)
     if payload == None:
         return jsonify({'message': 'Invalid token!'}), 401
     else:
@@ -101,7 +101,7 @@ def setGuestPreferences():
     
 @app.route('/removeGuest', methods=['POST'])
 def setRemoveUser():
-    payload = validateToken(request);
+    payload = validateToken(request)
     if payload == None:
         return jsonify({'message': 'Invalid token!'}), 401
     else:
