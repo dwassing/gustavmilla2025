@@ -9,25 +9,27 @@ import { Guest } from '../models/guest.model';
 })
 export class GuestService {
 
-  private headers = new HttpHeaders({
-    'Authorization': `${localStorage.getItem('token')}`,
-    accept: 'application/json'
-  });
+  private getHeaders(): HttpHeaders {
+    return new HttpHeaders({
+      'Authorization': `${localStorage.getItem('token')}`,
+      'accept': 'application/json'
+    });
+  }
 
   constructor(private http: HttpClient) {}
 
   getGuestPreferences(): Observable<Guest[]> {
-    return this.http.get<Guest[]>(`${environment.backendBaseUrl}/getGuestPreferences`, {headers: this.headers})
+    return this.http.get<Guest[]>(`${environment.backendBaseUrl}/getGuestPreferences`, {headers:  this.getHeaders()})
   }
 
   async setGuestPreferences(guests: Guest[]): Promise<boolean> {
-    return lastValueFrom(this.http.post<boolean>(`${environment.backendBaseUrl}/setGuestPreferences`, guests, {headers: this.headers}));
+    return lastValueFrom(this.http.post<boolean>(`${environment.backendBaseUrl}/setGuestPreferences`, guests, {headers:  this.getHeaders()}));
   }
 
   async removeGuest(id: number): Promise<boolean> {
     const body = {
       guestId: id
     }
-    return lastValueFrom(this.http.post<boolean>(`${environment.backendBaseUrl}/removeGuest`, body, {headers: this.headers}))
+    return lastValueFrom(this.http.post<boolean>(`${environment.backendBaseUrl}/removeGuest`, body, {headers:  this.getHeaders()}))
   }
 }
