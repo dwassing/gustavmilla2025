@@ -1,6 +1,45 @@
 @if(message){
   <p>{{message}}</p>
 }
-<p>Välkommen till Gustav Yngemo och Milla Bengtssons bröllop!</p>
 
-<button (click)="goToLoginPage()">Tryck här för att logga in</button>
+<body>
+  <h1 style="font-size: clamp(1.8rem, 5vw, 5rem);
+    text-align: center;">
+    Välkommen till Gustav och Millas bröllop!
+  </h1>
+</body>
+
+<div class="div-all">
+  <button 
+    (click)="goToLoginPage()"
+    class="button-62">Tryck här för att logga in
+  </button>
+</div>
+
+<!-- I can add aspect ratio under object fit ex
+ aspect-ratio: 9 / 16 
+ the object fit is not needed-->
+
+<head>
+  <style>
+    img{
+      max-width: 100%;
+      height: auto;
+      object-fit: cover;
+    }
+      .center {
+          display: block;
+          margin-left: auto;
+          margin-right: auto;
+      }
+  </style>
+</head>
+
+<body>
+  <img src=
+  "../../../assets/images/banner-img.jpg" 
+       alt="HTML Image"
+       class="center"
+       width="4032"
+       height="3024">
+</body>

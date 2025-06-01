@@ -5,4 +5,5 @@ export interface Guest {
   foodPreference: string;
   allergi: string;
   registered: boolean;
+  isEditMode: boolean;
 }

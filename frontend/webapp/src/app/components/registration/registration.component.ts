@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Guest } from '../../models/guest.model';
 
 @Component({
   selector: 'app-registration',
@@ -12,6 +13,7 @@ export class RegistrationComponent {
   @Output() formSubmitted = new EventEmitter<any>();  // Add an output event emitter
 
   @Input() guestId!: number;
+  @Input() registeredGuest: Guest | undefined;
   guestForm!: FormGroup;
   submitted: boolean = false;
 
@@ -19,10 +21,10 @@ export class RegistrationComponent {
 
   ngOnInit(): void {
     this.guestForm = this.fb.group({
-      firstName: ['', Validators.required],
-      lastName: ['', Validators.required],
-      foodPreferences: [''],
-      allergi: [''],
+      firstName: [this.registeredGuest ? this.registeredGuest.firstName : '', Validators.required],
+      lastName: [this.registeredGuest ? this.registeredGuest.lastName : '', Validators.required],
+      foodPreferences: [this.registeredGuest ? this.registeredGuest.foodPreference : ''],
+      allergi: [this.registeredGuest ? this.registeredGuest.allergi : ''],
       guestId: this.guestId
     });
   }

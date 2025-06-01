@@ -18,24 +18,6 @@ export class ProfilePage implements OnInit {
   idToBeRegistered: number | undefined;
   guestsToBeRegistered: Guest[] = [];
   submitCount: number = 0;
-  mockdata: Guest[] = [
-    {
-      guestId: 2,
-      firstName: "Daniel",
-      lastName: "Wassing",
-      foodPreference: "",
-      allergi: "jordnötter",
-      registered: true,
-    },
-    {
-      guestId: 5,
-      firstName: "Annica",
-      lastName: "Wassing",
-      foodPreference: "",
-      allergi: "fisk",
-      registered: false,
-    },
-  ];
 
   constructor(
     private guestService: GuestService,
@@ -64,9 +46,16 @@ export class ProfilePage implements OnInit {
   }
 
   onGuestFormSubmit(guest: Guest){
+    this.registeredGuests.forEach(guest => {
+      guest.isEditMode = false;
+    });
     this.guestsToBeRegistered.push(guest);
     this.idToBeRegistered = undefined;
     this.setGuestPreferences();
+  }
+
+  updateGuest(guest: Guest){
+    this.registeredGuests[this.registeredGuests.indexOf(guest)].isEditMode = true;
   }
 
   async setGuestPreferences(): Promise<boolean> {

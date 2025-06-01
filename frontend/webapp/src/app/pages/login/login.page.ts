@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { LoginService } from '../../services/login.service';
 import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
@@ -11,7 +11,7 @@ import { NgForm } from '@angular/forms';
   templateUrl: './login.page.html',
   styleUrl: './login.page.scss'
 })
-export class LoginPage {
+export class LoginPage implements OnInit {
   response: string = '';
   constructor(
     private loginService: LoginService,
@@ -20,8 +20,13 @@ export class LoginPage {
 
   }
 
+  ngOnInit(): void {
+    if (localStorage.getItem('token')){
+      this.router.navigate(['profile']);
+    }
+  }
+
   loginUser(form: NgForm){
-    console.log(form);
     const username = form.value.username;
     const password = form.value.password;
     this.loginService.loginUser(username, password).subscribe(res => {

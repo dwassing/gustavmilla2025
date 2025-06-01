@@ -29,6 +29,7 @@ def index():
 def login():
     username = request.json.get('username')
     password = request.json.get('password')
+    print(username)
     db = get_db()
     cursor = db.cursor()
     query = "SELECT id, first_name, last_name FROM login_table WHERE username = ? AND password = ?"
@@ -36,6 +37,7 @@ def login():
     user = cursor.fetchone() 
     db.close()
     if user:
+        print(user)
         id, first_name, last_name = user
         token = jwt.encode({'first_name': first_name, 'last_name': last_name, 'user_id': id, 'exp': datetime.datetime.utcnow() + datetime.timedelta(minutes=180)}, app.config['SECRET_KEY'])
         return jsonify({'first_name': first_name, 'last_name': last_name, 'token': token})
