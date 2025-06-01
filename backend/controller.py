@@ -65,7 +65,7 @@ def guestPreferences():
         db = get_db()
         cursor = db.cursor()
         query = "SELECT guest_id, first_name, last_name, food_preference, allergi, registered FROM guest_table WHERE connected_user = ?"
-        cursor.execute(query, (str(payload['user_id'])))
+        cursor.execute(query, (str(payload['user_id']),))
         information = cursor.fetchall()
         dictlist = [dict() for x in range(len(information))]
         for n, entry in enumerate(information):
