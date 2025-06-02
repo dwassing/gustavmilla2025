@@ -67,3 +67,12 @@
     flex-direction: column;
     align-items: center;
 }
+
+// colors
+:root {
+  --dark-purple: #745e96;     // Mörk lila
+  --default-purple: #a492c4;  // Default lila
+  --dark-green: #4e684b;      // Mörkgrön
+  --medium-green: #739272;    // Mellangrön
+  --light-green: #a7bfa5;     // Ljusgrön
+}
