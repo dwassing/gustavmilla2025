@@ -76,3 +76,7 @@
   --medium-green: #739272;    // Mellangrön
   --light-green: #a7bfa5;     // Ljusgrön
 }
+
+body {
+  background-color: var(--light-green);
+}
