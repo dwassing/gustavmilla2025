@@ -104,7 +104,7 @@ a {
 
 .link1:hover {
   cursor: pointer;
-  background-color: #fff;
+  background-color: var(--light-green);
   color: rgb(61, 61, 61);
   -webkit-transition: all 0.3s ease;
   transition: all 0.3s ease;
