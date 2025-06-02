@@ -1,13 +1,7 @@
-@if(message){
-  <p>{{message}}</p>
-}
-
-<body>
-  <h1 style="font-size: clamp(1.8rem, 5vw, 5rem);
-    text-align: center;">
-    Välkommen till Gustav och Millas bröllop!
-  </h1>
-</body>
+<h1 style="font-size: clamp(1.8rem, 5vw, 5rem);
+  text-align: center;">
+  Välkommen till Gustav och Millas bröllop!
+</h1>
 
 <div class="div-all">
   <button 
@@ -15,12 +9,18 @@
     class="button-62">{{isLoggedIn ? 'Gå till anmälan' : 'Tryck här för att logga in'}}
   </button>
 </div>
-
+<owl-carousel-o [options]="customOptions">
+  @for(img of images; track img){
+    <ng-template carouselSlide>
+      <img [src]="img" alt="Wedding photo" style="width: 100%; height: auto;" />
+    </ng-template>
+  }
+</owl-carousel-o>
 <!-- I can add aspect ratio under object fit ex
  aspect-ratio: 9 / 16 
  the object fit is not needed-->
 
-<head>
+<!-- <head>
   <style>
     img{
       max-width: 100%;
@@ -42,4 +42,4 @@
        class="center"
        width="4032"
        height="3024">
-</body>
+</body> -->
