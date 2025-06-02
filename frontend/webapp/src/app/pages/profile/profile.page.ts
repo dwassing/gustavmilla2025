@@ -14,8 +14,9 @@ import { RegistrationComponent } from "../../components/registration/registratio
 })
 export class ProfilePage implements OnInit {
   registeredGuests: Guest[] = [];
-  notRegisteredIds: number[] = [];
+  notRegisteredGuests: Guest[] = [];
   idToBeRegistered: number | undefined;
+  guestTemplate: Guest | undefined;
   guestsToBeRegistered: Guest[] = [];
   submitCount: number = 0;
 
@@ -31,18 +32,19 @@ export class ProfilePage implements OnInit {
 
   getGuestPreferences(): void {
     this.guestService.getGuestPreferences().subscribe((res) => {
-      this.notRegisteredIds = [];
       this.registeredGuests = res;
+      this.notRegisteredGuests = [];
       this.registeredGuests.forEach((guest) => {
         if (!guest.registered) {
-          this.notRegisteredIds.push(guest.guestId);
+          this.notRegisteredGuests.push(guest);
         }
       });
     });
   }
 
-  createGuestRegistration(): void {
-    this.idToBeRegistered = this.notRegisteredIds.pop()!!;
+  createGuestRegistration(guest: Guest): void {
+    this.idToBeRegistered = guest.guestId;
+    this.guestTemplate = guest;
   }
 
   onGuestFormSubmit(guest: Guest){
@@ -50,6 +52,11 @@ export class ProfilePage implements OnInit {
       guest.isEditMode = false;
     });
     this.guestsToBeRegistered.push(guest);
+
+    this.notRegisteredGuests = this.notRegisteredGuests.filter(
+      (removeGuest) => +removeGuest.guestId !== +guest.guestId
+    );
+
     this.idToBeRegistered = undefined;
     this.setGuestPreferences();
   }
@@ -62,14 +69,13 @@ export class ProfilePage implements OnInit {
     const res = await this.guestService.setGuestPreferences(this.guestsToBeRegistered);
     if (res){
       this.guestsToBeRegistered = [];
-      this.notRegisteredIds = []; // not quite, only remove those that are registered
     }
     this.getGuestPreferences();
     return res;
   }
 
   async unregisterGuest(guest: Guest): Promise<boolean> {
-    const res = await this.guestService.removeGuest(guest.guestId);
+    const res = await this.guestService.removeGuest(guest);
     this.registeredGuests.splice(this.registeredGuests.indexOf(guest), 1);
     if (res) this.getGuestPreferences();
     return res;

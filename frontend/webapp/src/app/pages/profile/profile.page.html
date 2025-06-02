@@ -17,16 +17,15 @@
       }
     }
     </div>
-    <!-- @for(guestId of idsToBeRegistered; track guestId){
-      <app-registration [guestId]="guestId" (formSubmitted)="onGuestFormSubmit($event)"></app-registration>
-    } -->
     @if(idToBeRegistered){
-      <app-registration [guestId]="idToBeRegistered" (formSubmitted)="onGuestFormSubmit($event)"></app-registration>
+      <app-registration [guestId]="idToBeRegistered" [registeredGuest]="guestTemplate" (formSubmitted)="onGuestFormSubmit($event)"></app-registration>
     }
-    @if(notRegisteredIds.length != 0 && !idToBeRegistered){
+    @if(notRegisteredGuests.length != 0 && !idToBeRegistered){
       <div class="registration-wrapper div-all">
-        <h2 class="heading-two">Du kan fortfarande anmäla {{notRegisteredIds.length == 1 ? '1 person' : notRegisteredIds.length + ' personer'}}</h2>
-        <button (click)="createGuestRegistration()">Klicka här för att anmäla en till person</button>
+        <h2 class="heading-two">Du kan fortfarande anmälda dessa personer:</h2>
+        @for(guest of notRegisteredGuests; track guest){
+          <button (click)="createGuestRegistration(guest)">Anmäl {{guest.firstName + ' ' + guest.lastName}}</button>
+        }
       </div>
     }
   }
