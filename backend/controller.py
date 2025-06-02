@@ -106,6 +106,8 @@ def setRemoveUser():
         return jsonify({'message': 'Invalid token!'}), 401
     else:
         person_to_remove = request.json.get('guestId')
+        person_firstname = request.json.get('firstName')
+        person_lastname = request.json.get('lastName')
         print(person_to_remove)
         db = get_db()
         cursor = db.cursor()
@@ -115,7 +117,7 @@ def setRemoveUser():
             return jsonify({'message': 'Invalid combination!'}), 401
         else:
             query = "UPDATE guest_table SET first_name = ?, last_name = ?, food_preference = ?, allergi = ?, registered = ? WHERE guest_id = ? AND connected_user = ?"
-            cursor.execute(query, ("", "", "", "", False, person_to_remove, payload['user_id']))
+            cursor.execute(query, (person_firstname, person_lastname, "", "", False, person_to_remove, payload['user_id']))
             db.commit()
             db.close()
             return jsonify({'message': 'Success'}), 200
