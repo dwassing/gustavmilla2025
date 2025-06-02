@@ -29,7 +29,6 @@ def index():
 def login():
     username = request.json.get('username')
     password = request.json.get('password')
-    print(username)
     db = get_db()
     cursor = db.cursor()
     query = "SELECT id, first_name, last_name FROM login_table WHERE username = ? AND password = ?"
@@ -37,7 +36,6 @@ def login():
     user = cursor.fetchone() 
     db.close()
     if user:
-        print(user)
         id, first_name, last_name = user
         token = jwt.encode({'first_name': first_name, 'last_name': last_name, 'user_id': id, 'exp': datetime.datetime.utcnow() + datetime.timedelta(minutes=180)}, app.config['SECRET_KEY'])
         return jsonify({'first_name': first_name, 'last_name': last_name, 'token': token})
@@ -108,7 +106,6 @@ def setRemoveUser():
         person_to_remove = request.json.get('guestId')
         person_firstname = request.json.get('firstName')
         person_lastname = request.json.get('lastName')
-        print(person_to_remove)
         db = get_db()
         cursor = db.cursor()
         query = "SELECT * FROM guest_table WHERE guest_id = ? AND connected_user = ?"
@@ -131,12 +128,12 @@ def protected():
         return jsonify({'message': 'Token is missing!'}), 401
     try:
         payload = jwt.decode(token, app.config['SECRET_KEY'], algorithms=['HS256'])
-        print("Payload:", payload)  # Debugging print statement
+        # print("Payload:", payload)  # Debugging print statement
         first_name = payload['first_name']
         last_name = payload['last_name']
         user_id = payload['user_id']
         exp = payload['exp']
-        print("Name:", first_name, last_name)
+        # print("Name:", first_name, last_name)
         # do something with id
         return jsonify({'message': f'Välkommen {first_name} {last_name}!'})
     except jwt.ExpiredSignatureError:
