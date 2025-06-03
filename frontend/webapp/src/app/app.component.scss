@@ -1,0 +1,20 @@
+.laurel {
+    position: absolute;
+    width: 120px; // Adjust size as needed
+    height: auto;
+    z-index: 1;
+    pointer-events: none; // Prevent blocking interaction
+    opacity: 0.8; // Optional visual effect
+  }
+  
+  .top-left {
+    top: 0;
+    left: 0;
+    margin: 20px;
+  }
+  
+  .bottom-right {
+    bottom: 0;
+    right: 0;
+    margin: 20px;
+  }
