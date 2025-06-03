@@ -1,9 +1,19 @@
-<h2>Du behöver logga in för att anmäla dig.</h2>
-<form #myform = "ngForm" (ngSubmit) = "loginUser(myform)" >
-    <input type = "text" name = "username" placeholder = "Username" ngModel>
-    <br/>
-  
-    <input type = "password" name = "password" placeholder = "Your Password" ngModel>
-    <br/>
-    <input type = "submit" value = "Logga in">
+<h2 class="login-header">Du behöver logga in för att anmäla dig.</h2>
+
+<form #myform="ngForm" (ngSubmit)="loginUser(myform)" class="login-form">
+  <input
+    type="text"
+    name="username"
+    placeholder="Användarnamn"
+    ngModel
+    class="login-input"
+  />
+  <input
+    type="password"
+    name="password"
+    placeholder="Lösenord"
+    ngModel
+    class="login-input"
+  />
+  <input type="submit" value="Logga in" class="button-62" />
 </form>

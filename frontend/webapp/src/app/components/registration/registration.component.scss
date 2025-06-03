@@ -1,0 +1,35 @@
+.guest-form {
+    max-width: 500px;
+    margin: 0 auto;
+    padding: 2rem;
+    border-radius: 12px;
+    background-color: #f4f4f4;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  }
+  
+  .form-group {
+    margin-bottom: 1.2rem;
+  }
+  
+  .form-group label {
+    display: block;
+    font-weight: 500;
+    margin-bottom: 0.3rem;
+    color: #333;
+  }
+  
+  .form-control {
+    width: 100%;
+    padding: 0.6rem;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    box-sizing: border-box;
+    font-family: inherit;
+    transition: border 0.2s ease;
+  }
+  
+  .form-control:focus {
+    border-color: #a492c4;
+    outline: none;
+  }

@@ -24,7 +24,7 @@
       <div class="registration-wrapper div-all">
         <h2 class="heading-two">Du kan fortfarande anmälda dessa personer:</h2>
         @for(guest of notRegisteredGuests; track guest){
-          <button (click)="createGuestRegistration(guest)">Anmäl {{guest.firstName + ' ' + guest.lastName}}</button>
+          <button (click)="createGuestRegistration(guest)" class="button-62">Anmäl {{guest.firstName + ' ' + guest.lastName}}</button>
         }
       </div>
     }

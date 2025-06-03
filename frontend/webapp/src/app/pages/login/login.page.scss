@@ -1,0 +1,33 @@
+.login-header {
+    text-align: center;
+    font-size: 1.4rem;
+    margin-bottom: 1rem;
+    color: #4e4e4e;
+  }
+  
+  .login-form {
+    max-width: 400px;
+    margin: 0 auto;
+    padding: 2rem;
+    border-radius: 12px;
+    background-color: #f4f4f4;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  }
+  
+  .login-input {
+    display: block;
+    width: 100%;
+    padding: 0.7rem;
+    margin-bottom: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-family: inherit;
+    box-sizing: border-box;
+    transition: border 0.2s ease;
+  }
+  
+  .login-input:focus {
+    border-color: #a492c4;
+    outline: none;
+  }
