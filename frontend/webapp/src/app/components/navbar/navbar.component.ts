@@ -1,5 +1,5 @@
 import { NgClass } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, ElementRef, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 
 @Component({
@@ -10,10 +10,11 @@ import { Router } from '@angular/router';
   styleUrl: './navbar.component.scss'
 })
 export class NavbarComponent {
+  @ViewChild('menuToggle') menuToggle!: ElementRef<HTMLInputElement>;
   constructor(private router: Router) {}
-  menuOpen = false;
 
   goTo(route: string){
     this.router.navigate([`${route}`])
+    this.menuToggle.nativeElement.checked = false; // Close menu
   }
 }
