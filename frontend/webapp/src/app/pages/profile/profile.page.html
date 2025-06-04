@@ -1,7 +1,9 @@
 <div class="guest-preferences-wrapper div-all">
   @if(registeredGuests.length > 0){
     <div class="guest-wrapper div-all">
-    <h2 class="heading-two">Dina anmälda gäster är:</h2>
+      @if(notRegisteredGuests.length < registeredGuests.length){
+        <h2 class="heading-two centered">Dina anmälda gäster är:</h2>
+      }
     @for(guest of registeredGuests; track guest){
       @if(guest.registered && !guest.isEditMode){
         <h3 class="heading-three">{{guest.firstName + ' ' + guest.lastName}}</h3> 
@@ -22,7 +24,7 @@
     }
     @if(notRegisteredGuests.length != 0 && !idToBeRegistered){
       <div class="registration-wrapper div-all">
-        <h2 class="heading-two">Du kan fortfarande anmälda dessa personer:</h2>
+        <h2 class="heading-two centered">Du kan fortfarande anmäla dessa personer:</h2>
         @for(guest of notRegisteredGuests; track guest){
           <button (click)="createGuestRegistration(guest)" class="button-62">Anmäl {{guest.firstName + ' ' + guest.lastName}}</button>
         }
